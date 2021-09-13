@@ -6,6 +6,10 @@ class GildedRose {
     public static final int TOO_CLOSE_TO_EXPIRE = 6;
     public static final int FAR_FROM_EXPIRE = 11;
     public static final int SELLIN_EXPIRY_DAY = 0;
+    public static final String AGED_BRIE = "Aged Brie";
+    public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+    public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
+    public static final String CONJURED = "Conjured";
     Item[] items;
 
     /**
@@ -37,8 +41,8 @@ class GildedRose {
      * @param item
      */
     private void handleQuality(Item item) {
-        if (!item.name.equals("Aged Brie")
-                && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (!item.name.equals(AGED_BRIE)
+                && !item.name.equals(BACKSTAGE_PASSES)) {
             decreaseQualityIfHasQuality(item);
         } else {
             increaseQualityIncludingBackstagePasses(item);
@@ -52,7 +56,7 @@ class GildedRose {
      * @param item
      */
     private void decreaseQualityIfHasQuality(Item item) {
-        if (item.quality > MIN_QUALITY && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (item.quality > MIN_QUALITY && !item.name.equals(SULFURAS)) {
             decreaseQuality(item);
             if (isConjured(item)) {
                 decreaseQuality(item);
@@ -75,7 +79,7 @@ class GildedRose {
      * @return boolean
      */
     private boolean isConjured(Item item) {
-        return item.name.contains("Conjured");
+        return item.name.contains(CONJURED);
     }
 
     /**
@@ -98,7 +102,7 @@ class GildedRose {
      * @param item
      */
     private void increaseQualityOfBackstagePasses(Item item) {
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (item.name.equals(BACKSTAGE_PASSES)) {
             increaseQualityForFarToExpire(item);
             increaseQualityForCloseToExpire(item);
         }
@@ -150,7 +154,7 @@ class GildedRose {
      * @param item
      */
     private void handleSellIn(Item item) {
-        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (!item.name.equals(SULFURAS)) {
             item.sellIn = item.sellIn - 1;
         }
         handleIfExpired(item);
@@ -172,7 +176,7 @@ class GildedRose {
      * @param item
      */
     private void handleExpired(Item item) {
-        if (!item.name.equals("Aged Brie")) {
+        if (!item.name.equals(AGED_BRIE)) {
             handleQualityOfExpiredIfNotAgedBrie(item);
         } else {
             increaseQualityIfNotMax(item);
@@ -185,7 +189,7 @@ class GildedRose {
      * @param item
      */
     private void handleQualityOfExpiredIfNotAgedBrie(Item item) {
-        if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (!item.name.equals(BACKSTAGE_PASSES)) {
             decreaseQualityIfHasQuality(item);
         } else {
             item.quality = MIN_QUALITY;
