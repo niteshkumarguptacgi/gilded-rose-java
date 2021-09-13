@@ -1,6 +1,11 @@
 package com.gildedrose;
 
 class GildedRose {
+    public static final int MIN_QUALITY = 0;
+    public static final int MAX_QUALITY = 50;
+    public static final int TOO_CLOSE_TO_EXPIRE = 6;
+    public static final int FAR_FROM_EXPIRE = 11;
+    public static final int SELLIN_EXPIRY_DAY = 0;
     Item[] items;
 
     /**
@@ -47,7 +52,7 @@ class GildedRose {
      * @param item
      */
     private void decreaseQualityIfHasQuality(Item item) {
-        if (item.quality > 0 && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (item.quality > MIN_QUALITY && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
             decreaseQuality(item);
             if (isConjured(item)) {
                 decreaseQuality(item);
@@ -80,7 +85,7 @@ class GildedRose {
      * @param item
      */
     private void increaseQualityIncludingBackstagePasses(Item item) {
-        if (item.quality < 50) {
+        if (item.quality < MAX_QUALITY) {
             increaseQuality(item);
             increaseQualityOfBackstagePasses(item);
         }
@@ -105,7 +110,7 @@ class GildedRose {
      * @param item
      */
     private void increaseQualityForCloseToExpire(Item item) {
-        if (item.sellIn < 6) {
+        if (item.sellIn < TOO_CLOSE_TO_EXPIRE) {
             increaseQualityIfNotMax(item);
         }
     }
@@ -116,7 +121,7 @@ class GildedRose {
      * @param item
      */
     private void increaseQualityForFarToExpire(Item item) {
-        if (item.sellIn < 11) {
+        if (item.sellIn < FAR_FROM_EXPIRE) {
             increaseQualityIfNotMax(item);
         }
     }
@@ -126,7 +131,7 @@ class GildedRose {
      * @param item
      */
     private void increaseQualityIfNotMax(Item item) {
-        if (item.quality < 50) {
+        if (item.quality < MAX_QUALITY) {
             increaseQuality(item);
         }
     }
@@ -156,7 +161,7 @@ class GildedRose {
      * @param item
      */
     private void handleIfExpired(Item item) {
-        if (item.sellIn < 0) {
+        if (item.sellIn < SELLIN_EXPIRY_DAY) {
             handleExpired(item);
         }
     }
@@ -183,7 +188,7 @@ class GildedRose {
         if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             decreaseQualityIfHasQuality(item);
         } else {
-            item.quality = 0;
+            item.quality = MIN_QUALITY;
         }
     }
 
